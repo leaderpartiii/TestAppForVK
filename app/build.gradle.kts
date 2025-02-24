@@ -1,13 +1,22 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20"
+
 }
+
 android {
     namespace = "com.example.myapplication"
     compileSdk = 35
+    val localPropertiesFile = rootProject.file("local.properties")
+    val localProperties = Properties()
+
+    localProperties.load(FileInputStream(localPropertiesFile))
 
     defaultConfig {
         applicationId = "com.example.myapplication"
@@ -18,11 +27,15 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "YOUTUBE_API_KEY", "\"${project.findProperty("YOUTUBE_API_KEY")}\"")
-
+        buildConfigField(
+            "String",
+            "YOUTUBE_API_KEY",
+            "\"${localProperties.getProperty("YOUTUBE_API_KEY")}\""
+        )
     }
 
     buildTypes {
+
         release {
             isMinifyEnabled = false
             proguardFiles(

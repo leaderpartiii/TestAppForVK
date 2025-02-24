@@ -20,17 +20,17 @@ class VideoApiService(
         }
     }
 ) {
-    private val notes = BuildConfig.YOUTUBE_API_KEY
-    private val countsOfVideos = 3;
+    private val apiKey = BuildConfig.YOUTUBE_API_KEY
+    private val countsOfVideos = 3
     private val nameVideo = "cats"
     private val url =
-        "https://www.googleapis.com/youtube/v3/search?key=$notes&maxResults=$countsOfVideos&part=snippet&type=video&q=$nameVideo";
+        "https://www.googleapis.com/youtube/v3/search?key=$apiKey&maxResults=$countsOfVideos&part=snippet&type=video&q=$nameVideo"
 
     suspend fun getVideos(): List<Video> {
         val response: String = client.get(url).body()
         if (response.contains("error")) {
-            Log.d("Video api service", response)
-            throw Exception("Ошибка API: $response")
+            Log.d("Video api service", url + response)
+            throw Exception("Error API: $response")
         }
         Log.d("Video api service", response)
         try {
