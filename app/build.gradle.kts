@@ -5,7 +5,6 @@ plugins {
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20"
 }
-
 android {
     namespace = "com.example.myapplication"
     compileSdk = 35
@@ -18,6 +17,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "YOUTUBE_API_KEY", "\"${project.findProperty("YOUTUBE_API_KEY")}\"")
+
     }
 
     buildTypes {
@@ -38,6 +40,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
