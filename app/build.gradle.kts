@@ -106,4 +106,16 @@ dependencies {
 
     //Serialization
     implementation(libs.kotlinx.serialization.json)
+
+    //Youtube player
+    implementation(libs.core)
+
+    //Fragment
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.ui.viewbinding)
+
+    //AppCompat
+    implementation(libs.androidx.material3.v120)
+
 }

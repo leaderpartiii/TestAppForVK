@@ -3,11 +3,9 @@ package com.example.myapplication
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,7 +16,7 @@ import com.example.myapplication.presentation.ui.VideoPlayerScreen
 import com.example.myapplication.presentation.viewmodel.VideoListViewModel
 import javax.inject.Inject
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
 
     @Inject
     lateinit var videoListViewModel: VideoListViewModel

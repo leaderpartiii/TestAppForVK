@@ -52,7 +52,7 @@ class VideoApiService(
                     Video(
                         title = title,
                         thumbnailUrl = thumbnailUrl,
-                        videoUrl = "https://www.youtube.com/watch?v=$id",
+                        videoUrl = id,
                         description = description
                     )
                 } catch (e: Exception) {
