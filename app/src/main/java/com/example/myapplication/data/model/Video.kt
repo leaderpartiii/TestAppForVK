@@ -1,15 +1,19 @@
 package com.example.myapplication.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 
 @Serializable
+@Entity(tableName = "Video")
 data class Video(
     val title: String,
     val description: String,
     val thumbnailUrl: String,
     val videoUrl: String,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
 ) {
     constructor(special: Boolean) : this(
         title = "Rick Astley - Never Gonna Give You Up (Official Music Video)",
