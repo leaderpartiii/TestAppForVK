@@ -23,20 +23,21 @@ class VideoApiService(
     private val apiKey = BuildConfig.YOUTUBE_API_KEY
     private val countsOfVideos = 3
     private val nameVideo = "cats"
-//    private val specialNameVideo = "Rick Astley - Never Gonna Give You Up (Official Music Video)\n"
-    private val url =
-        "https://www.googleapis.com/youtube/v3/search?key=$apiKey&maxResults=$countsOfVideos&part=snippet&type=video&q=$nameVideo"
+    private var pageToken = ""
 
     suspend fun getVideos(): List<Video> {
+        val url =
+            "https://www.googleapis.com/youtube/v3/search?key=$apiKey&maxResults=$countsOfVideos&part=snippet&type=video&q=$nameVideo&pageToken=$pageToken"
         val response: String = client.get(url).body()
         if (response.contains("error")) {
             Log.d("Video api service", url + response)
-            throw Exception("Error API: $response")
+            return emptyList()
         }
         Log.d("Video api service", response)
         try {
             val jsonElement = Json.parseToJsonElement(response)
             val items = jsonElement.jsonObject["items"]?.jsonArray ?: return emptyList()
+            pageToken = jsonElement.jsonObject["nextPageToken"]?.jsonPrimitive?.content ?: ""
             return items.mapNotNull { item ->
                 try {
                     val snippet = item.jsonObject["snippet"]?.jsonObject ?: return@mapNotNull null
