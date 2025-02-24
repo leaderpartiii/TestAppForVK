@@ -18,7 +18,7 @@ import coil3.compose.AsyncImage
 import com.example.myapplication.data.model.Video
 
 @Composable
-fun VideoItem(video: Video, onVideoClick: (Video) -> Unit) {
+fun VideoItemScreen(video: Video, onVideoClick: (Video) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

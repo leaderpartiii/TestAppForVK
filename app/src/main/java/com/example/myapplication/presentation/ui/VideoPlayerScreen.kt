@@ -1,5 +1,7 @@
 package com.example.myapplication.presentation.ui
 
+import android.annotation.SuppressLint
+import android.webkit.WebView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,31 +25,18 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import com.example.myapplication.data.model.Video
 
+@SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun VideoPlayerScreen(video: Video, onBackPress: () -> Unit) {
     val context = LocalContext.current
-    val playerState = rememberSaveable { mutableStateOf(true) }
+    val webView = remember { WebView(context) }
 
-    val player = remember {
-        ExoPlayer.Builder(context).build().apply {
-            setMediaItem(MediaItem.fromUri(video.videoUrl))
-            prepare()
-            playWhenReady = playerState.value
-        }
-    }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            playerState.value = player.playWhenReady
-            player.release()
-        }
-    }
+    webView.settings.javaScriptEnabled = true
+    webView.loadUrl(video.videoUrl)
 
     Box(modifier = Modifier.fillMaxSize()) {
-        AndroidView(
-            factory = { PlayerView(context).apply { this.player = player } },
-            modifier = Modifier.fillMaxSize()
-        )
+        AndroidView(factory = { webView }, modifier = Modifier.fillMaxSize())
+
         IconButton(
             onClick = onBackPress,
             modifier = Modifier

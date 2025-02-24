@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.data.model.Video
 import com.example.myapplication.presentation.ui.VideoListScreen
 import com.example.myapplication.presentation.ui.VideoPlayerScreen
 import com.example.myapplication.presentation.viewmodel.VideoListViewModel
@@ -44,15 +47,21 @@ fun VideoAppNavHost(
     NavHost(navController, startDestination = "video_list") {
         composable("video_list") {
             VideoListScreen(viewModel) { video ->
-                navController.navigate("video_player/${video.videoUrl}")
+                navController.navigate("video_player/${Uri.encode(video.videoUrl)}")
             }
         }
         composable("video_player/{videoUrl}") { backStackEntry ->
             val videoUrl = backStackEntry.arguments?.getString("videoUrl")
-            val video = viewModel.getVideoById(videoUrl)
+            val video = viewModel.getVideoById(Uri.decode(videoUrl))
 
-            video?.let {
-                VideoPlayerScreen(it) { navController.popBackStack() }
+            Log.d("NavHost", videoUrl ?: "null")
+
+            if (video != null) {
+                VideoPlayerScreen(video) { navController.popBackStack() }
+            } else {
+                VideoPlayerScreen(
+                    Video(true)
+                ) { navController.popBackStack() }
             }
         }
     }

@@ -27,7 +27,7 @@ fun VideoListScreen(
     ) {
         LazyColumn {
             items(videos) { video ->
-                VideoItem(video, onVideoClick)
+                VideoItemScreen(video, onVideoClick)
             }
         }
     }

@@ -23,6 +23,7 @@ class VideoApiService(
     private val apiKey = BuildConfig.YOUTUBE_API_KEY
     private val countsOfVideos = 3
     private val nameVideo = "cats"
+//    private val specialNameVideo = "Rick Astley - Never Gonna Give You Up (Official Music Video)\n"
     private val url =
         "https://www.googleapis.com/youtube/v3/search?key=$apiKey&maxResults=$countsOfVideos&part=snippet&type=video&q=$nameVideo"
 
@@ -45,7 +46,7 @@ class VideoApiService(
                     val title = snippet["title"]?.jsonPrimitive?.content ?: return@mapNotNull null
                     val description = snippet["description"]?.jsonPrimitive?.content ?: ""
                     val thumbnailUrl = snippet["thumbnails"]?.jsonObject
-                        ?.get("medium")?.jsonObject
+                        ?.get("high")?.jsonObject
                         ?.get("url")?.jsonPrimitive?.content ?: return@mapNotNull null
 
                     Video(
